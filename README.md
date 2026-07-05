@@ -1,6 +1,6 @@
 # TeamFlow - Project Management Platform
 
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/yourusername/teamflow)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/mahekbegum122/teamflow)
 [![React](https://img.shields.io/badge/React-18.2.0-blue)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-18.x-green)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-7.x-green)](https://mongodb.com/)
@@ -109,8 +109,68 @@ TeamFlow is a full-stack collaborative platform for software engineering teams t
 
 ## 📂 Project Structure
 
-
-
+```
+teamflow/
+├── backend/
+│   ├── src/
+│   │   ├── models/
+│   │   │   ├── User.js
+│   │   │   ├── Project.js
+│   │   │   ├── Task.js          # Task with dependencies
+│   │   │   ├── RCA.js
+│   │   │   ├── Notification.js
+│   │   │   └── Comment.js
+│   │   ├── controllers/
+│   │   │   ├── authController.js
+│   │   │   ├── projectController.js
+│   │   │   ├── taskController.js # Dependency logic ⭐
+│   │   │   └── rcaController.js
+│   │   ├── routes/
+│   │   │   ├── authRoutes.js
+│   │   │   ├── projectRoutes.js
+│   │   │   ├── taskRoutes.js
+│   │   │   └── rcaRoutes.js
+│   │   ├── middleware/
+│   │   │   └── auth.js
+│   │   ├── config/
+│   │   │   └── db.js
+│   │   └── app.js
+│   ├── .env.example
+│   └── package.json
+│
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── Login.tsx
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── ProjectDetails.tsx
+│   │   │   ├── MyTasks.tsx
+│   │   │   ├── RCA.tsx
+│   │   │   ├── Notifications.tsx
+│   │   │   └── Settings.tsx
+│   │   ├── components/
+│   │   │   ├── Layout/
+│   │   │   │   ├── Header.tsx
+│   │   │   │   ├── Sidebar.tsx
+│   │   │   │   ├── Footer.tsx
+│   │   │   │   └── LayoutWrapper.tsx
+│   │   │   └── NotificationBell.tsx
+│   │   ├── services/
+│   │   │   └── api.ts
+│   │   ├── App.tsx
+│   │   ├── index.tsx
+│   │   └── index.css
+│   ├── .env.example
+│   └── package.json
+│
+├── docs/
+│   ├── erd.md
+│   ├── architecture.md
+│   └── architecture-decisions.md
+│
+├── .gitignore
+└── README.md
+```
 
 ---
 
@@ -131,9 +191,13 @@ Before you begin, ensure you have the following installed:
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/teamflow.git
+git clone https://github.com/mahekbegum122/teamflow.git
 cd teamflow
+```
 
+#### 2. Backend Setup
+
+```bash
 # Navigate to backend directory
 cd backend
 
@@ -148,8 +212,13 @@ cp .env.example .env
 
 # Start backend server
 npm run dev
+```
 
+The backend server will run on `http://localhost:5000`
 
+#### 3. Frontend Setup
+
+```bash
 # Open a new terminal
 cd frontend
 
@@ -161,6 +230,13 @@ cp .env.example .env
 
 # Start frontend server
 npm start
+```
+
+The frontend application will run on `http://localhost:3003`
+
+#### 4. Start MongoDB
+
+```bash
 # Windows
 mongod
 
@@ -169,6 +245,15 @@ brew services start mongodb-community
 
 # Linux
 sudo service mongod start
+```
+
+---
+
+## 📝 Environment Variables
+
+### Backend (.env)
+
+```env
 # Server Configuration
 PORT=5000
 NODE_ENV=development
@@ -178,13 +263,22 @@ MONGODB_URI=mongodb://localhost:27017/teamflow
 
 # Authentication
 JWT_SECRET=your_super_secret_key_here_change_this_in_production
+```
+
+### Frontend (.env)
+
+```env
 # API URL
 REACT_APP_API_URL=http://localhost:5000/api
-Task Workflow
-Status Flow
+```
 
+---
 
+## 🔄 Task Workflow
 
+### Status Flow
+
+```
 ┌─────────┐     ┌──────────────┐     ┌───────────┐     ┌──────┐
 │  TODO   │ ──▶ │ IN_PROGRESS  │ ──▶ │ IN_REVIEW │ ──▶ │ DONE │
 └─────────┘     └──────────────┘     └───────────┘     └──────┘
@@ -193,8 +287,11 @@ Status Flow
                  ┌─────────┐                           ┌─────────┐
                  │ BLOCKED │                           │ BLOCKED │
                  └─────────┘                           └─────────┘
+```
 
+### Dependency Logic Example
 
+```
 Task A: "Design Homepage" → Status: TODO
 Task B: "Implement Homepage" → Status: TODO, Depends On: Task A
 
@@ -203,14 +300,115 @@ User tries to move Task B to IN_PROGRESS
 
 User completes Task A (moves to DONE)
 ✅ Task B is now unblocked and can be started
+```
 
+---
 
+## 📡 API Endpoints
 
-👨‍💻 Author
-Your Name
+### Authentication
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/register` | Register new user |
+| POST | `/api/auth/login` | Login user |
 
-GitHub: @yourusername
+### Projects
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/projects` | Get all projects |
+| POST | `/api/projects` | Create a project |
+| GET | `/api/projects/:id` | Get a single project |
 
-Email: your.email@example.com
+### Tasks
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/tasks/project/:projectId` | Get tasks for a project |
+| POST | `/api/tasks` | Create a task |
+| PUT | `/api/tasks/:id/status` | Update task status |
+| POST | `/api/tasks/dependency` | Add task dependency |
+| DELETE | `/api/tasks/:id` | Delete a task |
 
-LinkedIn: your-linkedin
+### RCA
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/rca/project/:projectId` | Get RCA for a project |
+| POST | `/api/rca` | Create an RCA |
+| PUT | `/api/rca/:id/status` | Update RCA status |
+| POST | `/api/rca/:id/review` | Add RCA review |
+
+### Notifications
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/notifications` | Get user notifications |
+| PUT | `/api/notifications/:id/read` | Mark notification as read |
+| PUT | `/api/notifications/read-all` | Mark all as read |
+
+---
+
+## ⚠️ Assumptions Made
+
+1. **User Authentication:** Email and password are used for authentication
+2. **Single Assignee:** Each task has exactly one assignee
+3. **Dependency Type:** Only Finish-to-Start dependencies are supported
+4. **Task Status:** Tasks follow: TODO → IN_PROGRESS → IN_REVIEW → DONE
+5. **Project Visibility:** All authenticated users can view all projects
+6. **RCA Review:** At least 2 reviews required for approval
+7. **Notifications:** In-app only (email notifications are future scope)
+
+---
+
+## 🐛 Known Limitations
+
+| Limitation | Description | Future Fix |
+|------------|-------------|------------|
+| **Email Notifications** | Not implemented yet | Add nodemailer integration |
+| **File Attachments** | Cannot upload files | Add multer and S3 storage |
+| **Real-time Updates** | No WebSocket support | Add Socket.io |
+| **Unit Tests** | No test coverage | Add Jest tests |
+| **Calendar View** | Only Kanban and List views | Implement calendar view |
+| **CSV Export** | Not implemented | Add export functionality |
+| **Offline Support** | No offline mode | Add PWA support |
+
+---
+
+## 👨‍💻 Author
+
+**Mahek Begum**
+
+- GitHub: [@mahekbegum122](https://github.com/mahekbegum122)
+- Email: mahekbegum54@gmail.com
+
+---
+
+## 📧 Submission
+
+This project was submitted to:
+- **Company:** 8th Element
+- **Position:** Full Stack Developer Intern
+- **Email:** careers@8thelement.ai
+- **Date:** July 7, 2026
+
+---
+
+## 📊 Project Status
+
+| Feature | Status |
+|---------|--------|
+| User Authentication | ✅ Complete |
+| Project Management | ✅ Complete |
+| Task Management | ✅ Complete |
+| Task Dependencies | ✅ Complete |
+| Kanban Board | ✅ Complete |
+| List View | ✅ Complete |
+| RCA | ✅ Complete |
+| Notifications | ✅ Complete |
+| My Tasks | ✅ Complete |
+| Settings | ✅ Complete |
+| Responsive UI | ✅ Complete |
+| Documentation | ✅ Complete |
+
+---
+
+*Built with ❤️ for 8th Element Internship Assignment*
+
+**© 2026 TeamFlow. All rights reserved.**
