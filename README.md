@@ -380,15 +380,6 @@ User completes Task A (moves to DONE)
 
 ---
 
-## 📧 Submission
-
-This project was submitted to:
-- **Company:** 8th Element
-- **Position:** Full Stack Developer Intern
-- **Email:** careers@8thelement.ai
-- **Date:** July 7, 2026
-
----
 
 ## 📊 Project Status
 
