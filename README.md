@@ -108,3 +108,109 @@ TeamFlow is a full-stack collaborative platform for software engineering teams t
 ---
 
 ## 📂 Project Structure
+
+
+
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+| Software | Version | Download Link |
+|----------|---------|---------------|
+| Node.js | 16.x or higher | [nodejs.org](https://nodejs.org/) |
+| MongoDB | 6.x or higher | [mongodb.com](https://www.mongodb.com/try/download/community) |
+| Git | Latest | [git-scm.com](https://git-scm.com/) |
+
+### Installation Steps
+
+#### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/teamflow.git
+cd teamflow
+
+# Navigate to backend directory
+cd backend
+
+# Install dependencies
+npm install
+
+# Copy environment variables
+cp .env.example .env
+
+# Update .env with your MongoDB URI
+# Edit .env file and set MONGODB_URI
+
+# Start backend server
+npm run dev
+
+
+# Open a new terminal
+cd frontend
+
+# Install dependencies
+npm install
+
+# Copy environment variables
+cp .env.example .env
+
+# Start frontend server
+npm start
+# Windows
+mongod
+
+# MacOS
+brew services start mongodb-community
+
+# Linux
+sudo service mongod start
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+
+# Database
+MONGODB_URI=mongodb://localhost:27017/teamflow
+
+# Authentication
+JWT_SECRET=your_super_secret_key_here_change_this_in_production
+# API URL
+REACT_APP_API_URL=http://localhost:5000/api
+Task Workflow
+Status Flow
+
+
+
+┌─────────┐     ┌──────────────┐     ┌───────────┐     ┌──────┐
+│  TODO   │ ──▶ │ IN_PROGRESS  │ ──▶ │ IN_REVIEW │ ──▶ │ DONE │
+└─────────┘     └──────────────┘     └───────────┘     └──────┘
+                      │                                      │
+                      ▼                                      ▼
+                 ┌─────────┐                           ┌─────────┐
+                 │ BLOCKED │                           │ BLOCKED │
+                 └─────────┘                           └─────────┘
+
+
+Task A: "Design Homepage" → Status: TODO
+Task B: "Implement Homepage" → Status: TODO, Depends On: Task A
+
+User tries to move Task B to IN_PROGRESS
+❌ System Error: "Cannot start task. These dependencies are not complete: Design Homepage"
+
+User completes Task A (moves to DONE)
+✅ Task B is now unblocked and can be started
+
+
+
+👨‍💻 Author
+Your Name
+
+GitHub: @yourusername
+
+Email: your.email@example.com
+
+LinkedIn: your-linkedin
